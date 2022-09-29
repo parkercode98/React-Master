@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>React</title>
+    
+		<style>
+			pre {
+				font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+				direction: ltr;
+				text-align: left;
+				white-space: pre;
+				word-spacing: normal;
+				word-break: normal;
+				word-wrap: normal;
+				padding: 1em;
+				margin: 0.5em 0;
+				overflow: auto;
+				line-height: 1.5;
+				tab-size: 4;
+				hyphens: none;
+				color: #f8f8f2;
+				background-color: #323232 !important;
+				border: #515151;
+				border-radius: 3px;
+			}
+			pre[class*='language-'] {
+				padding: 1em;
+			}
+			code[class*='language-'] .token.comment,
+			pre[class*='language-'] .token.comment,
+			code[class*='language-'] .token.prolog,
+			pre[class*='language-'] .token.prolog,
+			code[class*='language-'] .token.doctype,
+			pre[class*='language-'] .token.doctype,
+			code[class*='language-'] .token.cdata,
+			pre[class*='language-'] .token.cdata {
+				color: #75715e;
+			}
+			code[class*='language-'] .token.punctuation,
+			pre[class*='language-'] .token.punctuation {
+				color: inherit;
+			}
+			code[class*='language-'] .namespace,
+			pre[class*='language-'] .namespace {
+				opacity: 0.7;
+			}
+			code[class*='language-'] .token.property,
+			pre[class*='language-'] .token.property,
+			code[class*='language-'] .token.tag,
+			pre[class*='language-'] .token.tag,
+			code[class*='language-'] .token.boolean,
+			pre[class*='language-'] .token.boolean,
+			code[class*='language-'] .token.number,
+			pre[class*='language-'] .token.number,
+			code[class*='language-'] .token.function-name,
+			pre[class*='language-'] .token.function-name,
+			code[class*='language-'] .token.constant,
+			pre[class*='language-'] .token.constant,
+			code[class*='language-'] .token.symbol,
+			pre[class*='language-'] .token.symbol,
+			code[class*='language-'] .token.deleted,
+			pre[class*='language-'] .token.deleted {
+				color: #ae81ff;
+			}
+			code[class*='language-'] .token.selector,
+			pre[class*='language-'] .token.selector,
+			code[class*='language-'] .token.attr-name,
+			pre[class*='language-'] .token.attr-name,
+			code[class*='language-'] .token.string,
+			pre[class*='language-'] .token.string,
+			code[class*='language-'] .token.char,
+			pre[class*='language-'] .token.char,
+			code[class*='language-'] .token.builtin,
+			pre[class*='language-'] .token.builtin,
+			code[class*='language-'] .token.inserted,
+			pre[class*='language-'] .token.inserted {
+				color: #e6db74;
+			}
+			code[class*='language-'] .token.entity,
+			pre[class*='language-'] .token.entity {
+				color: #ae81ff;
+			}
+			code[class*='language-'] .token.url,
+			pre[class*='language-'] .token.url {
+				color: #ccc;
+			}
+			code[class*='language-'] .token.operator,
+			pre[class*='language-'] .token.operator {
+				color: #f92672;
+			}
+			code[class*='language-'] .token.atrule,
+			pre[class*='language-'] .token.atrule,
+			code[class*='language-'] .token.attr-value,
+			pre[class*='language-'] .token.attr-value,
+			code[class*='language-'] .token.keyword,
+			pre[class*='language-'] .token.keyword {
+				color: #66d9ef;
+			}
+			code[class*='language-'] .token.function,
+			pre[class*='language-'] .token.function {
+				color: #a6e22e;
+			}
+			code[class*='language-'] .token.class-name,
+			pre[class*='language-'] .token.class-name {
+				color: #a6e22e;
+			}
+			code[class*='language-'] .token.regex,
+			pre[class*='language-'] .token.regex {
+				color: #ae81ff;
+			}
+			code[class*='language-'] .token.important,
+			pre[class*='language-'] .token.important,
+			code[class*='language-'] .token.variable,
+			pre[class*='language-'] .token.variable {
+				color: #a6e22e;
+			}
+			code[class*='language-'] .token.important,
+			pre[class*='language-'] .token.important,
+			code[class*='language-'] .token.bold,
+			pre[class*='language-'] .token.bold {
+				font-weight: bold;
+			}
+			code[class*='language-'] .token.italic,
+			pre[class*='language-'] .token.italic {
+				font-style: italic;
+			}
+			code[class*='language-'] .token.entity,
+			pre[class*='language-'] .token.entity {
+				cursor: help;
+			}
+
+			/* highlight */
+			pre[data-line] {
+				position: relative;
+				padding: 1em 0 1em 3em;
+			}
+			pre[data-line] .line-highlight-wrapper {
+				position: absolute;
+				top: 0;
+				left: 0;
+				background-color: transparent;
+				display: block;
+				width: 100%;
+			}
+			pre[data-line] .line-highlight {
+				position: absolute;
+				left: 0;
+				right: 0;
+				padding: inherit 0;
+				margin-top: 1em;
+				background: rgba(153, 122, 102, 0.08);
+				background: linear-gradient(to right, rgba(153, 122, 102, 0.1) 70%, rgba(153, 122, 102, 0));
+				pointer-events: none;
+				line-height: inherit;
+				white-space: pre;
+			}
+			pre[data-line] .line-highlight:before,
+			pre[data-line] .line-highlight[data-end]:after {
+				content: attr(data-start);
+				position: absolute;
+				top: 0.4em;
+				left: 0.6em;
+				min-width: 1em;
+				padding: 0 0.5em;
+				background-color: rgba(153, 122, 102, 0.4);
+				color: #f5f2f0;
+				font: bold 65%/1.5 sans-serif;
+				text-align: center;
+				vertical-align: 0.3em;
+				border-radius: 999px;
+				text-shadow: none;
+				box-shadow: 0 1px white;
+			}
+			pre[data-line] .line-highlight[data-end]:after {
+				content: attr(data-end);
+				top: auto;
+				bottom: 0.4em;
+			}
+			html body {
+				font-family: 'Helvetica Neue', Helvetica, 'Segoe UI', Arial, freesans, sans-serif;
+				font-size: 16px;
+				line-height: 1.6;
+				color: #f8f8f2;
+				background-color: #282828;
+				overflow: initial;
+				box-sizing: border-box;
+				word-wrap: break-word;
+			}
+			html body > :first-child {
+				margin-top: 0;
+			}
+			html body h1,
+			html body h2,
+			html body h3,
+			html body h4,
+			html body h5,
+			html body h6 {
+				line-height: 1.2;
+				margin-top: 1em;
+				margin-bottom: 16px;
+				color: #fff;
+			}
+			html body h1 {
+				font-size: 2.25em;
+				font-weight: 300;
+				padding-bottom: 0.3em;
+			}
+			html body h2 {
+				font-size: 1.75em;
+				font-weight: 400;
+				padding-bottom: 0.3em;
+			}
+			html body h3 {
+				font-size: 1.5em;
+				font-weight: 500;
+			}
+			html body h4 {
+				font-size: 1.25em;
+				font-weight: 600;
+			}
+			html body h5 {
+				font-size: 1.1em;
+				font-weight: 600;
+			}
+			html body h6 {
+				font-size: 1em;
+				font-weight: 600;
+			}
+			html body h1,
+			html body h2,
+			html body h3,
+			html body h4,
+			html body h5 {
+				font-weight: 600;
+			}
+			html body h5 {
+				font-size: 1em;
+			}
+			html body h6 {
+				color: #dbdbbd;
+			}
+			html body strong {
+				color: #fff;
+			}
+			html body del {
+				color: #dbdbbd;
+			}
+			html body a:not([href]) {
+				color: inherit;
+				text-decoration: none;
+			}
+			html body a {
+				color: #08c;
+				text-decoration: none;
+			}
+			html body a:hover {
+				color: #00a3f5;
+				text-decoration: none;
+			}
+			html body img {
+				max-width: 100%;
+			}
+			html body > p {
+				margin-top: 0;
+				margin-bottom: 16px;
+				word-wrap: break-word;
+			}
+			html body > ul,
+			html body > ol {
+				margin-bottom: 16px;
+			}
+			html body ul,
+			html body ol {
+				padding-left: 2em;
+			}
+			html body ul.no-list,
+			html body ol.no-list {
+				padding: 0;
+				list-style-type: none;
+			}
+			html body ul ul,
+			html body ul ol,
+			html body ol ol,
+			html body ol ul {
+				margin-top: 0;
+				margin-bottom: 0;
+			}
+			html body li {
+				margin-bottom: 0;
+			}
+			html body li.task-list-item {
+				list-style: none;
+			}
+			html body li > p {
+				margin-top: 0;
+				margin-bottom: 0;
+			}
+			html body .task-list-item-checkbox {
+				margin: 0 0.2em 0.25em -1.8em;
+				vertical-align: middle;
+			}
+			html body .task-list-item-checkbox:hover {
+				cursor: pointer;
+			}
+			html body blockquote {
+				margin: 16px 0;
+				font-size: inherit;
+				padding: 0 15px;
+				color: #dbdbbd;
+				background-color: #3c3c3c;
+				border-left: 4px solid #515151;
+			}
+			html body blockquote > :first-child {
+				margin-top: 0;
+			}
+			html body blockquote > :last-child {
+				margin-bottom: 0;
+			}
+			html body hr {
+				height: 4px;
+				margin: 32px 0;
+				background-color: #515151;
+				border: 0 none;
+			}
+			html body table {
+				margin: 10px 0 15px 0;
+				border-collapse: collapse;
+				border-spacing: 0;
+				display: block;
+				width: 100%;
+				overflow: auto;
+				word-break: normal;
+				word-break: keep-all;
+			}
+			html body table th {
+				font-weight: bold;
+				color: #fff;
+			}
+			html body table td,
+			html body table th {
+				border: 1px solid #515151;
+				padding: 6px 13px;
+			}
+			html body dl {
+				padding: 0;
+			}
+			html body dl dt {
+				padding: 0;
+				margin-top: 16px;
+				font-size: 1em;
+				font-style: italic;
+				font-weight: bold;
+			}
+			html body dl dd {
+				padding: 0 16px;
+				margin-bottom: 16px;
+			}
+			html body code {
+				font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+				font-size: 0.85em !important;
+				color: #fff;
+				background-color: #3c3c3c;
+				border-radius: 3px;
+				padding: 0.2em 0;
+			}
+			html body code::before,
+			html body code::after {
+				letter-spacing: -0.2em;
+				content: '\00a0';
+			}
+			html body pre > code {
+				padding: 0;
+				margin: 0;
+				font-size: 0.85em !important;
+				word-break: normal;
+				white-space: pre;
+				background: transparent;
+				border: 0;
+			}
+			html body .highlight {
+				margin-bottom: 16px;
+			}
+			html body .highlight pre,
+			html body pre {
+				padding: 1em;
+				overflow: auto;
+				font-size: 0.85em !important;
+				line-height: 1.45;
+				border: #515151;
+				border-radius: 3px;
+			}
+			html body .highlight pre {
+				margin-bottom: 0;
+				word-break: normal;
+			}
+			html body pre code,
+			html body pre tt {
+				display: inline;
+				max-width: initial;
+				padding: 0;
+				margin: 0;
+				overflow: initial;
+				line-height: inherit;
+				word-wrap: normal;
+				background-color: transparent;
+				border: 0;
+			}
+			html body pre code:before,
+			html body pre tt:before,
+			html body pre code:after,
+			html body pre tt:after {
+				content: normal;
+			}
+			html body p,
+			html body blockquote,
+			html body ul,
+			html body ol,
+			html body dl,
+			html body pre {
+				margin-top: 0;
+				margin-bottom: 16px;
+			}
+			html body kbd {
+				color: #fff;
+				border: 1px solid #515151;
+				border-bottom: 2px solid #424242;
+				padding: 2px 4px;
+				background-color: #3c3c3c;
+				border-radius: 3px;
+			}
+			@media print {
+				html body {
+					background-color: #282828;
+				}
+				html body h1,
+				html body h2,
+				html body h3,
+				html body h4,
+				html body h5,
+				html body h6 {
+					color: #fff;
+					page-break-after: avoid;
+				}
+				html body blockquote {
+					color: #dbdbbd;
+				}
+				html body pre {
+					page-break-inside: avoid;
+				}
+				html body table {
+					display: table;
+				}
+				html body img {
+					display: block;
+					max-width: 100%;
+					max-height: 100%;
+				}
+				html body pre,
+				html body code {
+					word-wrap: break-word;
+					white-space: pre;
+				}
+			}
+			.markdown-preview {
+				width: 100%;
+				height: 100%;
+				box-sizing: border-box;
+			}
+			.markdown-preview .pagebreak,
+			.markdown-preview .newpage {
+				page-break-before: always;
+			}
+			.markdown-preview pre.line-numbers {
+				position: relative;
+				padding-left: 3.8em;
+				counter-reset: linenumber;
+			}
+			.markdown-preview pre.line-numbers > code {
+				position: relative;
+			}
+			.markdown-preview pre.line-numbers .line-numbers-rows {
+				position: absolute;
+				pointer-events: none;
+				top: 1em;
+				font-size: 100%;
+				left: 0;
+				width: 3em;
+				letter-spacing: -1px;
+				border-right: 1px solid #999;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+			}
+			.markdown-preview pre.line-numbers .line-numbers-rows > span {
+				pointer-events: none;
+				display: block;
+				counter-increment: linenumber;
+			}
+			.markdown-preview pre.line-numbers .line-numbers-rows > span:before {
+				content: counter(linenumber);
+				color: #999;
+				display: block;
+				padding-right: 0.8em;
+				text-align: right;
+			}
+			.markdown-preview .mathjax-exps .MathJax_Display {
+				text-align: center !important;
+			}
+			.markdown-preview:not([for='preview']) .code-chunk .btn-group {
+				display: none;
+			}
+			.markdown-preview:not([for='preview']) .code-chunk .status {
+				display: none;
+			}
+			.markdown-preview:not([for='preview']) .code-chunk .output-div {
+				margin-bottom: 16px;
+			}
+			.scrollbar-style::-webkit-scrollbar {
+				width: 8px;
+			}
+			.scrollbar-style::-webkit-scrollbar-track {
+				border-radius: 10px;
+				background-color: transparent;
+			}
+			.scrollbar-style::-webkit-scrollbar-thumb {
+				border-radius: 5px;
+				background-color: rgba(150, 150, 150, 0.66);
+				border: 4px solid rgba(150, 150, 150, 0.66);
+				background-clip: content-box;
+			}
+			html body[for='html-export']:not([data-presentation-mode]) {
+				position: relative;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				margin: 0;
+				padding: 0;
+				overflow: auto;
+			}
+			html body[for='html-export']:not([data-presentation-mode]) .markdown-preview {
+				position: relative;
+				top: 0;
+			}
+			@media screen and (min-width: 914px) {
+				html body[for='html-export']:not([data-presentation-mode]) .markdown-preview {
+					padding: 2em calc(50% - 457px + 2em);
+				}
+			}
+			@media screen and (max-width: 914px) {
+				html body[for='html-export']:not([data-presentation-mode]) .markdown-preview {
+					padding: 2em;
+				}
+			}
+			@media screen and (max-width: 450px) {
+				html body[for='html-export']:not([data-presentation-mode]) .markdown-preview {
+					font-size: 14px !important;
+					padding: 1em;
+				}
+			}
+			@media print {
+				html body[for='html-export']:not([data-presentation-mode]) #sidebar-toc-btn {
+					display: none;
+				}
+			}
+			html body[for='html-export']:not([data-presentation-mode]) #sidebar-toc-btn {
+				position: fixed;
+				bottom: 8px;
+				left: 8px;
+				font-size: 28px;
+				cursor: pointer;
+				color: inherit;
+				z-index: 99;
+				width: 32px;
+				text-align: center;
+				opacity: 0.4;
+			}
+			html body[for='html-export']:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn {
+				opacity: 1;
+			}
+			html body[for='html-export']:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 300px;
+				height: 100%;
+				padding: 32px 0 48px 0;
+				font-size: 14px;
+				box-shadow: 0 0 4px rgba(150, 150, 150, 0.33);
+				box-sizing: border-box;
+				overflow: auto;
+				background-color: inherit;
+			}
+			html
+				body[for='html-export']:not([data-presentation-mode])[html-show-sidebar-toc]
+				.md-sidebar-toc::-webkit-scrollbar {
+				width: 8px;
+			}
+			html
+				body[for='html-export']:not([data-presentation-mode])[html-show-sidebar-toc]
+				.md-sidebar-toc::-webkit-scrollbar-track {
+				border-radius: 10px;
+				background-color: transparent;
+			}
+			html
+				body[for='html-export']:not([data-presentation-mode])[html-show-sidebar-toc]
+				.md-sidebar-toc::-webkit-scrollbar-thumb {
+				border-radius: 5px;
+				background-color: rgba(150, 150, 150, 0.66);
+				border: 4px solid rgba(150, 150, 150, 0.66);
+				background-clip: content-box;
+			}
+			html body[for='html-export']:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a {
+				text-decoration: none;
+			}
+			html body[for='html-export']:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul {
+				padding: 0 1.6em;
+				margin-top: 0.8em;
+			}
+			html body[for='html-export']:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc li {
+				margin-bottom: 0.8em;
+			}
+			html body[for='html-export']:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul {
+				list-style-type: none;
+			}
+			html body[for='html-export']:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview {
+				left: 300px;
+				width: calc(100% - 300px);
+				padding: 2em calc(50% - 457px - 150px);
+				margin: 0;
+				box-sizing: border-box;
+			}
+			@media screen and (max-width: 1274px) {
+				html body[for='html-export']:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview {
+					padding: 2em;
+				}
+			}
+			@media screen and (max-width: 450px) {
+				html body[for='html-export']:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview {
+					width: 100%;
+				}
+			}
+			html
+				body[for='html-export']:not([data-presentation-mode]):not([html-show-sidebar-toc])
+				.markdown-preview {
+				left: 50%;
+				transform: translateX(-50%);
+			}
+			html body[for='html-export']:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc {
+				display: none;
+			}
+			/* Please visit the URL below for more information: */
+			/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+			html {
+				background-color: #141414;
+			}
+			a {
+				background-color: darkcyan;
+				border-radius: 1em;
+				padding: 0.1rem 0.3rem;
+				text-decoration: underline;
+				font-style: italic;
+			}
+			.markdown-preview.markdown-preview {
+				width: 100%;
+				height: 100%;
+				color: white;
+				background-color: #141414;
+			}
+			.markdown-preview.markdown-preview iframe {
+				width: 100%;
+				aspect-ratio: 3;
+			}
+			.markdown-preview.markdown-preview strong {
+				color: #aa66da;
+			}
+			.markdown-preview.markdown-preview em {
+				color: #d34444;
+			}
+			.markdown-preview.markdown-preview em ~ u {
+				color: #d34444;
+				text-decoration-color: #d34444;
+			}
+			.markdown-preview.markdown-preview blockquote {
+				color: #2cb5ff;
+			}
+			.markdown-preview.markdown-preview blockquote p {
+				color: #2cb5ff;
+				font-style: italic;
+			}
+			.markdown-preview.markdown-preview :not(pre, strong, em, u, code) {
+				color: inherit;
+			}
+			.markdown-preview.markdown-preview h1 {
+				padding: 1rem;
+				background-color: hsl(216, 6%, 14%);
+				border-radius: 0.6rem;
+				text-align: center;
+			}
+			.markdown-preview.markdown-preview h2 {
+				display: inline-block;
+				color: mediumvioletred;
+				text-decoration: underline;
+				font-weight: bold;
+				padding: 0.6rem;
+				border-radius: 0.4rem;
+				background-color: hsl(216, 6%, 20%);
+			}
+			.markdown-preview.markdown-preview h3 {
+				color: #458dc1;
+				text-decoration: underline;
+				font-weight: bold;
+				font-style: italic;
+			}
+			.markdown-preview.markdown-preview h4 {
+				color: #e2a128;
+			}
+			.markdown-preview.markdown-preview h5 {
+				color: #4cd237;
+			}
+			.markdown-preview.markdown-preview code {
+				color: white;
+			}
+			.markdown-preview.markdown-preview [data-role='codeBlock'] {
+				background-color: #27292c;
+				color: white;
+			}
+			.markdown-preview.markdown-preview [data-role='codeBlock'] .punctuation,
+			.markdown-preview.markdown-preview [data-role='codeBlock'] .string {
+				color: white;
+			}
+			.markdown-preview.markdown-preview blob {
+				display: flex;
+				width: 100%;
+				height: 75vh;
+				background-color: transparent;
+			}
+		</style>
+	</head>
+	<body for="html-export">
+		<div class="mume markdown-preview">
+			<h1 class="mume-header" id="react">React</h1>
+
+			<hr />
+			<h2 class="mume-header" id="anatomy">Anatomy</h2>
+
+			<blockquote>
+				<p>What are all the files in a React Project?</p>
+			</blockquote>
+			<p>There are many ways to start a <strong>React App</strong>, including:</p>
+			<ul>
+				<li>Create React App</li>
+				<li>Vite</li>
+				<li>Next.js</li>
+			</ul>
+			<h3 class="mume-header" id="create-react-app">Create React App</h3>
+
+			<p>To use <strong>Create React App</strong> simply type in the cmd line:</p>
+			<pre
+				data-role="codeBlock"
+				data-info="bash .numberLines"
+				class="language-bash line-numbers"
+			>npx create-react-app
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></pre>
+			<p>
+				The <strong>Create React App</strong> tool manages a <em>webpack</em> behind the scenes so you dont have
+				to.
+			</p>
+			<h4 class="mume-header" id="webpack">Webpack:</h4>
+
+			<blockquote>
+				<p>
+					Webpack is a module bundler that is responsible for combining all of your javascript code into a
+					single file that can be used by a web browser.
+				</p>
+			</blockquote>
+			<h3 class="mume-header" id="files-file-structure">Files &amp; File Structure</h3>
+
+			<h4 class="mume-header" id="tree">Tree:</h4>
+
+			<pre data-role="codeBlock" data-info="text" class="language-text">
+&#x1F4E6;react-base
+ &#x2523; &#x1F4C2;node_modules
+ &#x2523; &#x1F4C2;public
+ &#x2503; &#x2523; &#x1F4DC;favicon.ico
+ &#x2503; &#x2523; &#x1F4DC;index.html
+ &#x2503; &#x2523; &#x1F4DC;logo192.png
+ &#x2503; &#x2523; &#x1F4DC;logo512.png
+ &#x2503; &#x2523; &#x1F4DC;manifest.json
+ &#x2503; &#x2517; &#x1F4DC;robots.txt
+ &#x2523; &#x1F4C2;src
+ &#x2503; &#x2523; &#x1F4DC;index.js
+ &#x2503; &#x2517; &#x1F4DC;index.scss
+ &#x2523; &#x1F4DC;.gitignore
+ &#x2523; &#x1F4DC;package-lock.json
+ &#x2523; &#x1F4DC;package.json
+ &#x2517; &#x1F4DC;README
+</pre
+			>
+			<h4 class="mume-header" id="files-folders">Files / Folders:</h4>
+
+			<h5 class="mume-header" id="packagejson">package.json</h5>
+
+			<blockquote>
+				<p>The <em>package.json</em> is where your installed dependencies are listed.</p>
+			</blockquote>
+			<h5 class="mume-header" id="public">public/</h5>
+
+			<blockquote>
+				<p>The public folder houses static files and the html shell for your website.</p>
+			</blockquote>
+			<h5 class="mume-header" id="indexjs">index.js</h5>
+
+			<blockquote>
+				<p>
+					The <em>index.js</em> file is the initial entrypoint for the web app and tells the React App how to
+					start up.
+				</p>
+			</blockquote>
+			<h5 class="mume-header" id="appjs">App.js</h5>
+
+			<blockquote>
+				<p>The first actual React Component is the <em>App.js</em></p>
+			</blockquote>
+			<p>
+				Component files, like this one, often end in the <em>.js</em> or the <em>.jsx</em> file extension.<br />
+				It&apos;s a good practice to only export <strong>one</strong> component from <strong>one</strong> file.
+			</p>
+			<hr />
+			<h2 class="mume-header" id="components">Components</h2>
+
+			<blockquote>
+				<p>
+					Reusable pieces of UI that are composed together as a tree to represent a complete front end
+					application.
+				</p>
+			</blockquote>
+			<h3 class="mume-header" id="defining-a-component-with-jsx">Defining a component with JSX</h3>
+
+			<p>
+				A component can be in the structure of a <strong>function</strong>, a <strong>class</strong>, or an
+				<strong>arrow function</strong>.
+			</p>
+			<pre
+				data-role="codeBlock"
+				data-info="jsx .numberLines"
+				class="language-jsx line-numbers"
+			><span class="token comment">/* Function Declaration */</span>
+<span class="token keyword keyword-function">function</span> <span class="token function"><span class="token maybe-class-name">MyComponent</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword control-flow keyword-return">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span><span class="token maybe-class-name">Hello</span><span class="token punctuation">,</span> <span class="token maybe-class-name">World</span><span class="token operator">!</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">;</span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">/* Function Expression / Arrow Function */</span>
+<span class="token keyword keyword-const">const</span> <span class="token function-variable function"><span class="token maybe-class-name">MyComponent</span></span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword control-flow keyword-return">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span><span class="token maybe-class-name">Hello</span><span class="token punctuation">,</span> <span class="token maybe-class-name">World</span><span class="token operator">!</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">/* Class extending React.Component */</span>
+<span class="token keyword keyword-class">class</span> <span class="token class-name">MyComponent</span> <span class="token keyword keyword-extends">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>
+  <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token parameter">props</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-super">super</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">/* code... */</span>
+  <span class="token punctuation">}</span>
+  <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword control-flow keyword-return">return</span> <span class="token punctuation">(</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span><span class="token maybe-class-name">Hello</span><span class="token punctuation">,</span> <span class="token maybe-class-name">World</span><span class="token operator">!</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">MyComponent</span></span> <span class="token punctuation">/&gt;</span></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre>
+			<br />
+			<h3 class="mume-header" id="share-data-with-props">Share Data with Props</h3>
+
+			<p>
+				A prop can be a primitive value like a string or number, and object, or even another React component.
+			</p>
+			<pre
+				data-role="codeBlock"
+				data-info="jsx .numberLines"
+				class="language-jsx line-numbers"
+			><span class="token keyword keyword-function">function</span> <span class="token function"><span class="token maybe-class-name">MyComponent</span></span><span class="token punctuation">(</span><span class="token parameter">props</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword control-flow keyword-return">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span><span class="token maybe-class-name">Hello</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>props<span class="token punctuation">.</span><span class="token property-access">name</span><span class="token punctuation">}</span><span class="token operator">!</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+<span class="token punctuation">}</span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">MyComponent</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>Parker<span class="token punctuation">&quot;</span></span> <span class="token punctuation">/&gt;</span></span>
+
+<span class="token comment">/* Deconstructing to pass props */</span>
+<span class="token keyword keyword-function">function</span> <span class="token function"><span class="token maybe-class-name">MyComponent</span></span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> name <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword control-flow keyword-return">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span><span class="token maybe-class-name">Hello</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>name<span class="token punctuation">}</span><span class="token operator">!</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+<span class="token punctuation">}</span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">MyComponent</span></span> <span class="token attr-name">name</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token string">&apos;Parker Cole&apos;</span> <span class="token operator">+</span> <span class="token number">24</span><span class="token punctuation">}</span></span><span class="token punctuation">&gt;</span></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre>
+			<p>
+				To make a <strong>container, or (shell like)</strong> component, (similiar to Angulars
+				<code>&lt;ng-content&gt;&lt;/ng-content&gt;</code>), you must pass in <strong>props.children</strong>:
+			</p>
+			<h5 class="mume-header" id="example">Example</h5>
+
+			<p>~ <em>App.js</em></p>
+			<pre
+				data-role="codeBlock"
+				data-info="jsx .numberLines"
+				class="language-jsx line-numbers"
+			><span class="token keyword module keyword-import">import</span> <span class="token imports"><span class="token maybe-class-name">React</span></span> <span class="token keyword module keyword-from">from</span> <span class="token string">&apos;react&apos;</span><span class="token punctuation">;</span>
+<span class="token keyword module keyword-import">import</span> <span class="token string">&apos;../styles.css&apos;</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-function">function</span> <span class="token function"><span class="token maybe-class-name">Card</span></span><span class="token punctuation">(</span><span class="token parameter">props</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token keyword control-flow keyword-return">return</span> <span class="token punctuation">(</span>
+		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>section</span><span class="token punctuation">&gt;</span></span>
+			<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">{</span>props<span class="token punctuation">.</span><span class="token property-access">icon</span><span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">&gt;</span></span>
+			<span class="token punctuation">{</span>props<span class="token punctuation">.</span><span class="token property-access">children</span><span class="token punctuation">}</span>
+		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>section</span><span class="token punctuation">&gt;</span></span>
+	<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword keyword-function">function</span> <span class="token function"><span class="token maybe-class-name">MyIcon</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token keyword control-flow keyword-return">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>i</span><span class="token punctuation">&gt;</span></span>&#x1F525;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>i</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword module keyword-export">export</span> <span class="token keyword module keyword-default">default</span> <span class="token keyword keyword-function">function</span> <span class="token function"><span class="token maybe-class-name">App</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token keyword control-flow keyword-return">return</span> <span class="token punctuation">(</span>
+		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">&gt;</span></span>
+			<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Card</span></span> <span class="token attr-name">icon</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">MyIcon</span></span> <span class="token punctuation">/&gt;</span></span><span class="token punctuation">}</span></span> <span class="token punctuation">/&gt;</span></span>
+			<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span><span class="token maybe-class-name">The</span> body <span class="token keyword keyword-of">of</span> the card<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+	<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre>
+			<h2 class="mume-header" id="conditional-rendering">Conditional Rendering</h2>
+
+			<blockquote>
+				<p>
+					<strong>Conditional rendering</strong> is a very common pattern where you render a component based on
+					a boolean condition. There are several ways to implement conditional rendering in React.
+				</p>
+			</blockquote>
+			<p>You have <strong>3 Options</strong>:</p>
+			<h3 class="mume-header" id="option-1-if-else">Option 1: IF ELSE</h3>
+
+			<pre
+				data-role="codeBlock"
+				data-info="jsx .numberLines"
+				class="language-jsx line-numbers"
+			><span class="token keyword keyword-function">function</span> <span class="token function"><span class="token maybe-class-name">Conditional</span></span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> count <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token keyword control-flow keyword-if">if</span> <span class="token punctuation">(</span>count <span class="token operator">&gt;</span> <span class="token number">5</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		<span class="token keyword control-flow keyword-return">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">&gt;</span></span><span class="token maybe-class-name">Count</span> is greater than <span class="token number">5</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span> <span class="token keyword control-flow keyword-else">else</span> <span class="token punctuation">{</span>
+		<span class="token keyword control-flow keyword-return">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">&gt;</span></span><span class="token maybe-class-name">Count</span> is less than <span class="token number">5</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre>
+			<h3 class="mume-header" id="option-2-ternary">Option 2: TERNARY</h3>
+
+			<pre
+				data-role="codeBlock"
+				data-info="jsx .numberLines"
+				class="language-jsx line-numbers"
+			><span class="token keyword keyword-function">function</span> <span class="token function"><span class="token maybe-class-name">Conditional</span></span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> count <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword control-flow keyword-return">return</span> <span class="token punctuation">(</span>
+    <span class="token punctuation">{</span>count <span class="token operator">%</span> <span class="token number">2</span> <span class="token operator">===</span> <span class="token number">0</span> <span class="token operator">?</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">&gt;</span></span><span class="token maybe-class-name">Count</span> is even<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">&gt;</span></span> <span class="token operator">:</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">&gt;</span></span><span class="token maybe-class-name">Count</span> is odd<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">&gt;</span></span> <span class="token punctuation">}</span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></pre>
+			<h3 class="mume-header" id="option-3-logical-and">Option 3: LOGICAL AND (&amp;&amp;)</h3>
+
+			<pre
+				data-role="codeBlock"
+				data-info="jsx .numberLines"
+				class="language-jsx line-numbers"
+			><span class="token keyword keyword-function">function</span> <span class="token function"><span class="token maybe-class-name">Conditional</span></span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> count <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword control-flow keyword-return">return</span> <span class="token punctuation">(</span>
+    <span class="token punctuation">{</span>count <span class="token operator">&amp;&amp;</span> <span class="token number">2</span> <span class="token operator">===</span> <span class="token number">0</span> <span class="token operator">?</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">&gt;</span></span><span class="token maybe-class-name">Count</span> is even<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">&gt;</span></span> <span class="token punctuation">}</span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></pre>
+			<h2 class="mume-header" id="loops">Loops</h2>
+
+			<pre
+				data-role="codeBlock"
+				data-info="jsx .numberLines"
+				class="language-jsx line-numbers"
+			><span class="token keyword keyword-function">function</span> <span class="token function"><span class="token maybe-class-name">ListOfAnimals</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token keyword keyword-const">const</span> data <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span> id<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">&apos;Fido &#x1F415;&apos;</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> id<span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">&apos;Snowball &#x1F408;&apos;</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> id<span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">&apos;Murph &#x1F408;&#x200D;&#x2B1B;&apos;</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> id<span class="token operator">:</span> <span class="token number">4</span><span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">&apos;Zelda &#x1F408;&apos;</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-function">function</span> <span class="token function"><span class="token maybe-class-name">ListOfAnimals</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword control-flow keyword-return">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span><span class="token punctuation">&gt;</span></span>
+      <span class="token punctuation">{</span>data <span class="token operator">&amp;&amp;</span> <span class="token comment">// Only render if there&apos;s data - see &apos;Conditional Rendering&apos;</span>
+        data<span class="token punctuation">.</span><span class="token method function property-access">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> id<span class="token punctuation">,</span> name <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token arrow operator">=&gt;</span> <span class="token punctuation">{</span>
+          <span class="token keyword control-flow keyword-return">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">key</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>id<span class="token punctuation">}</span></span><span class="token punctuation">&gt;</span></span><span class="token punctuation">{</span>name<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">}</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ul</span><span class="token punctuation">&gt;</span></span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre>
+			<h2 class="mume-header" id="events">Events</h2>
+
+			<h4 class="mume-header" id="events-in-react">Events In React</h4>
+
+			<pre
+				data-role="codeBlock"
+				data-info="jsx .numberLines"
+				class="language-jsx line-numbers"
+			><span class="token keyword keyword-function">function</span> <span class="token function"><span class="token maybe-class-name">Events</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token keyword control-flow keyword-return">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token arrow operator">=&gt;</span> <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span>event<span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></pre>
+			<h5 class="mume-header" id="example-1">Example:</h5>
+
+			<blockquote>
+				<p>Implement a text input that updates the input value and logs the event target.</p>
+			</blockquote>
+			<p>~ <em>App.js</em></p>
+			<pre
+				data-role="codeBlock"
+				data-info="jsx .numberLines"
+				class="language-jsx line-numbers"
+			><span class="token keyword keyword-function">function</span> <span class="token function"><span class="token maybe-class-name">App</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token keyword keyword-const">const</span> <span class="token punctuation">[</span>value<span class="token punctuation">,</span> setValue<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token string">&apos;&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-const">const</span> <span class="token function-variable function">eventHandler</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">ev</span><span class="token punctuation">)</span> <span class="token arrow operator">=&gt;</span> <span class="token punctuation">{</span>
+		<span class="token function">setValue</span><span class="token punctuation">(</span>ev<span class="token punctuation">.</span><span class="token property-access">target</span><span class="token punctuation">.</span><span class="token property-access">value</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span>ev<span class="token punctuation">.</span><span class="token property-access">target</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+	<span class="token keyword control-flow keyword-return">return</span> <span class="token punctuation">(</span>
+		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span></span><span class="token punctuation">&gt;</span></span>
+			<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">value</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>value<span class="token punctuation">}</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&apos;</span>Enter some text here<span class="token punctuation">&apos;</span></span> <span class="token attr-name">onChange</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>eventHandler<span class="token punctuation">}</span></span> <span class="token punctuation">/&gt;</span></span>
+		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span></span><span class="token punctuation">&gt;</span></span>
+	<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword module keyword-export">export</span> <span class="token keyword module keyword-default">default</span> <span class="token maybe-class-name">App</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre>
+			<h2 class="mume-header" id="state">State</h2>
+
+			<blockquote>
+				<p><strong>State</strong> - Data that changes throughout the life cycle of the app.</p>
+				<p>
+					We use <strong>props</strong> to share data between components, but how do we actually modify that
+					data.<br />
+					<strong>props</strong> are <em>immutable</em>, so we can just change the value anywhere and expect
+					React to update the UI.
+				</p>
+			</blockquote>
+			<p>For data that changes, React provides a <strong>hook</strong> called <code>useState()</code>.</p>
+			<p>
+				A <strong>hook</strong> is a function that can be called in the top level of your component, to use
+				different features of the framework.
+			</p>
+			<p>
+				<code>useState(default_value)</code> creates a stateful value and when it changes it will automatically
+				re-render any components that depend on it.
+			</p>
+			<p>It takes a default value as an argumant, and returns two values in an array.</p>
+			<p>
+				It&apos;s common to destructure these values, with the <em>1st</em> element being the actual value you
+				want to use in the UI, and the <em>2nd</em> value being a function you can use to render a different
+				value.
+			</p>
+			<pre
+				data-role="codeBlock"
+				data-info="jsx .numberLines"
+				class="language-jsx line-numbers"
+			><span class="token keyword keyword-const">const</span> <span class="token punctuation">[</span>count<span class="token punctuation">,</span> setCount<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">/* `count` = actual value you want to use in the UI */</span>
+<span class="token comment">/* `setCount` = a function that you can use to render a different value */</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></pre>
+			<h5 class="mume-header" id="example-1">Example 1):</h5>
+
+			<blockquote>
+				<p>A button that counts upward everytime you click the button</p>
+			</blockquote>
+			<iframe
+				style="width: 100%"
+				scrolling="no"
+				title="CodePen"
+				src="https://codepen.io/parkercode98/embed/preview/zYjRLYY?default-tab=js%2Cresult&amp;theme-id=dark"
+				frameborder="no"
+				loading="lazy"
+				allowtransparency="true"
+				allowfullscreen="true"
+			>
+			</iframe>
+			<h5 class="mume-header" id="example-2">Example 2):</h5>
+
+			<blockquote>
+				<p>
+					Working with Arrays or Objects with useState.<br />
+					When you set a new value it will completely override the old one.
+				</p>
+			</blockquote>
+			<p>
+				If you want to merge a new value into an array or object, its common to use the
+				<strong>spread syntax</strong> to merge the old value into a new object.
+			</p>
+			<iframe
+				style="width: 100%"
+				scrolling="no"
+				title="CodePen"
+				src="https://codepen.io/parkercode98/embed/preview/abGqjOv?default-tab=js%2Cresult&amp;theme-id=dark"
+				frameborder="no"
+				loading="lazy"
+				allowtransparency="true"
+				allowfullscreen="true"
+			>
+			</iframe>
+			<p><blob></blob></p>
+		</div>
+	</body>
+</html>
